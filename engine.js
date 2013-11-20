@@ -17,7 +17,7 @@ window.engine = (new (function() {
   // point to our jax.
   this._init = function() {
     this.Q.Push(this.bind(function () {
-      this.math = MathJax.Hub.getAllJax("math")[0];
+      this.math = document.getElementById("math");
       this._process_buffered();
     }));
   };
@@ -25,7 +25,8 @@ window.engine = (new (function() {
   // receives input latex string and invokes cb
   // function with svg result.
   this._process = function(latex, cb) {
-    this.Q.Push(["Text", this.math, latex]);
+    this.math.innerHTML = latex;
+    this.Q.Push(["Typeset", MathJax.Hub, this.math]);
     this.Q.Push(this.bind(function() {
       // then, this toSVG call will invoke cb(result).
       cb(document.getElementsByTagName("svg")[1].cloneNode(true));
