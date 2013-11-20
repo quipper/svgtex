@@ -50,12 +50,18 @@ console.log("loading bench page");
 page.open('index.html', function (status) {
 
   service = server.listen('0.0.0.0:' + PORT, function(req, resp) {
-    var query;
+    var contentType = req.headers['Content-Type'],
+        query;
     if (req.method == 'GET') {
       // URL starts with /? and is urlencoded.
+      //query = unescape(req.url.substr(2));
       query = unescape(req.url.substr(2));
     } else {
-      query = req.postRaw;
+      if (contentType === 'application/x-www-form-urlencoded') {
+        query = req.postRaw;
+      } else {
+        query = req.post;
+      }
     }
     activeRequests[query] = [resp, (new Date()).getTime()];
     // this is just queueing call, it will return at once.
