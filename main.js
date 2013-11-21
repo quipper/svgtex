@@ -12,7 +12,7 @@ var activeRequests = {};
 var service = null;
 
 var contentTypeFor = {
-  'png': 'text/html',
+  'png': 'image/png',
   'svg': 'image/svg+xml',
   'err': 'err'
 }
@@ -46,7 +46,7 @@ page.onCallback = function(data) {
 
   if(format === 'png') {
     page.clipRect = data[1];
-    data[1] = "<html><body><img src='data:image/png;base64," + page.renderBase64('png') + "'></body></html>";
+    data[1] = page.renderBase64('png');
   }
 
   var t = ', took ' + (((new Date()).getTime() - record[1])) + 'ms.';
