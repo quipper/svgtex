@@ -29,7 +29,12 @@ window.engine = (new (function() {
     this.Q.Push(["Typeset", MathJax.Hub, this.math]);
     this.Q.Push(this.bind(function() {
       // then, this toSVG call will invoke cb(result).
-      cb(document.getElementsByTagName("svg")[1].cloneNode(true));
+      try {
+        cb(document.getElementsByTagName("svg")[1].cloneNode(true));
+      } catch(err) {
+        cb('error');
+      }
+      
     }));
   };
 
@@ -46,6 +51,9 @@ window.engine = (new (function() {
   // SVGs and return one stand-alone svg which could be
   // displayed like an image on some different page.
   this._merge = function(svg, outputFormat) {
+    if(svg === 'error') { 
+      return svg;
+    }
     var origDefs = document.getElementById('MathJax_SVG_Hidden')
       .nextSibling.childNodes[0];
     var defs = origDefs.cloneNode(false);

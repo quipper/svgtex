@@ -44,14 +44,14 @@ page.onCallback = function(data) {
 
   var format = record[2];
 
-  if(format === 'png') {
+  if(format === 'png' && data[1] !== 'error') {
     page.clipRect = data[1];
     data[1] = page.renderBase64('png');
   }
 
   var t = ', took ' + (((new Date()).getTime() - record[1])) + 'ms.';
-
-  if ((typeof data[1]) === 'string') {
+  console.log(data)
+  if ((typeof data[1]) === 'string' !== 'error') {
     resp.statusCode = 200;
     resp.setHeader("Content-Type", contentTypeFor[format]);
     resp.setHeader("Content-Length", utf8_strlen(data[1]));
