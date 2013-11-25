@@ -15,7 +15,7 @@ var contentTypeFor = {
   'png': 'image/png',
   'svg': 'image/svg+xml',
   'err': 'err'
-}
+};
 
 if (args.length > 1) {
   PORT = args[1];
