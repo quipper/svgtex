@@ -29,7 +29,12 @@ window.engine = (new (function() {
     this.Q.Push(["Typeset", MathJax.Hub, this.math]);
     this.Q.Push(this.bind(function() {
       // then, this toSVG call will invoke cb(result).
-      cb(document.getElementsByTagName("svg")[1].cloneNode(true));
+      try {
+        cb(document.getElementsByTagName("svg")[1].cloneNode(true));
+      } catch(err) {
+        cb('error');
+      }
+      
     }));
   };
 
@@ -45,7 +50,10 @@ window.engine = (new (function() {
   // the begining of the DOM, this function should take two
   // SVGs and return one stand-alone svg which could be
   // displayed like an image on some different page.
-  this._merge = function(svg) {
+  this._merge = function(svg, outputFormat) {
+    if(svg === 'error') { 
+      return svg;
+    }
     var origDefs = document.getElementById('MathJax_SVG_Hidden')
       .nextSibling.childNodes[0];
     var defs = origDefs.cloneNode(false);
@@ -76,7 +84,14 @@ window.engine = (new (function() {
     svg.style.position = "static";
     var tmpDiv = document.createElement('div');
     tmpDiv.appendChild(svg);
-    return tmpDiv.innerHTML;
+    if(outputFormat === 'svg') {
+      return tmpDiv.innerHTML;
+    } else if (outputFormat === 'png') {
+      rect = document.getElementsByTagName('svg')[1].getBoundingClientRect();
+      return { top: (rect.top - 8), left: (rect.left - 8), width: (rect.width + 8), height: (rect.height + 8) };
+    } else {
+      return {};
+    }
   };
 
   // if someone calls process before init is complete,
@@ -93,12 +108,12 @@ window.engine = (new (function() {
   // if there is an error during the latex rendering then second
   // element (instead of SVG output) will be array again with
   // only one string element describing the error message.
-  this.process = function(latex, cb) {
+  this.process = function(latex, format, cb) {
     if (this.math === null) {
       this.buffer.push( [latex, cb] );
     } else {
       this._process(latex, this.bind(function(svg) {
-        cb([latex, this._merge(svg)]);
+        cb([latex, this._merge(svg, format)]);
       }));
     }
   };
