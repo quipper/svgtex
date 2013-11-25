@@ -51,7 +51,7 @@ page.onCallback = function(data) {
 
   var t = ', took ' + (((new Date()).getTime() - record[1])) + 'ms.';
   console.log(data)
-  if ((typeof data[1]) === 'string' !== 'error') {
+  if ((typeof data[1]) === 'string' && data[1] !== 'error') {
     resp.statusCode = 200;
     resp.setHeader("Content-Type", contentTypeFor[format]);
     resp.setHeader("Content-Length", utf8_strlen(data[1]));
