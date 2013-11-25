@@ -50,7 +50,7 @@ page.onCallback = function(data) {
   }
 
   var t = ', took ' + (((new Date()).getTime() - record[1])) + 'ms.';
-  console.log(data)
+
   if ((typeof data[1]) === 'string' && data[1] !== 'error') {
     resp.statusCode = 200;
     resp.setHeader("Content-Type", contentTypeFor[format]);
@@ -65,6 +65,8 @@ page.onCallback = function(data) {
         data[0].length + 'B query, ERR ' + data[1][0] + t);
   }
   resp.close();
+  delete activeRequests[data[0]]; // Free up memory
+
   if (!(--REQ_TO_LIVE)) {
     phantom.exit();
   }
@@ -75,7 +77,6 @@ page.open('index.html', function (status) {
 
   service = server.listen('0.0.0.0:' + PORT, function(req, resp) {
     var format = requested_format(req.url);
-    console.log('Requested Format: ' + format); 
 
     var contentType = req.headers['Content-Type'],
         query;
