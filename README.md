@@ -12,7 +12,7 @@ $ phantomjs main.js
 
 loading bench page
 server started on port 16000
-you can hit server with http://localhost:16000/
+you can post to the server at http://localhost:16000/
 .. or by sending latex source in POST (not url encoded)
 ```
 

@@ -103,7 +103,7 @@ page.open('index.html', function (status) {
     phantom.exit(1);
   } else {
     console.log("server started on port " + PORT);
-    console.log("you can hit server with http://localhost:" + PORT + "/?2^n");
+    console.log("you can post to the server at http://localhost:" + PORT + "/");
     console.log(".. or by sending tex source in POST (not url encoded)");
   }
 });
