@@ -12,19 +12,25 @@ $ phantomjs main.js
 
 loading bench page
 server started on port 16000
-you can hit server with http://localhost:16000/?2^n
+you can hit server with http://localhost:16000/
 .. or by sending latex source in POST (not url encoded)
 ```
 
 And then (in a different console).. curl it up!
 
+For SVG:
 ```
-$ curl localhost:16000/?x
+$ curl localhost:16000/svg -d "<math><msup><mi>x</mi><mn>2</mn></msup></math>"
 
 <svg xmlns:xlink="http://www.w3.org/1999/xlink" style="width: 1.34ex; height: 1.099ex; vertical-align: -0.124ex; margin-top: 1px; margin-right: 0px; margin-bottom: 1px; ...
 ```
 
+For PNG: 
+```
+$ curl localhost:16000/png -d "<math><msup><mi>x</mi><mn>2</mn></msup></math>"
 
+iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAR9JREFUOI3t07srx1EYx/HXzy383JKBSC4lkskmBovFQtiIUf4A...
+```
 CDN loading
 -----------
 
