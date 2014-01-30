@@ -80,6 +80,9 @@ page.open('index.html', function (status) {
 
     var contentType = req.headers['Content-Type'],
         query;
+
+    resp.setHeader("Access-Control-Allow-Origin", req.headers.Origin);
+
     if (req.method == 'GET') {
       // URL starts with /svg? or /png? and is urlencoded.
       query = unescape(req.url.substr(5));
