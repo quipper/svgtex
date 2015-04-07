@@ -88,7 +88,7 @@ window.engine = (new (function() {
       return tmpDiv.innerHTML;
     } else if (outputFormat === 'png') {
       rect = document.getElementsByTagName('svg')[1].getBoundingClientRect();
-      return { top: (rect.top - 8), left: (rect.left - 8), width: (rect.width + 8), height: (rect.height + 8) };
+      return { top: (rect.top - 8), left: (rect.left - 8), width: (rect.width + 16), height: (rect.height + 16) };
     } else {
       return {};
     }
